@@ -70,17 +70,17 @@ RUN source $HOME/.bashrc && nodebrew use $NODE_VERSION
 RUN gem install bundler
 
 # ワーキングディレクトリの設定
-RUN mkdir -p /var/www/html/karitoke
-WORKDIR /var/www/html/karitoke
+RUN mkdir -p /var/www/html/nonbee
+WORKDIR /var/www/html/nonbee
 
 # gemfileを追加する
-ADD Gemfile /var/www/html/karitoke/Gemfile
-ADD Gemfile.lock /var/www/html/karitoke/Gemfile.lock
+ADD Gemfile /var/www/html/nonbee/Gemfile
+ADD Gemfile.lock /var/www/html/nonbee/Gemfile.lock
 
 # bundle install
 #RUN bundle update
 RUN bundle install --retry 3
 
-ADD . /var/www/html/karitoke
+ADD . /var/www/html/nonbee
 
 #CMD ["bundle","exec","rails","s","-b","0.0.0.0","-p","3000"]
