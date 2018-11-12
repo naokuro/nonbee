@@ -1,0 +1,40 @@
+version: '2'
+services:
+  rails:
+    env_file: ./env/rails.env
+    build: ./rails
+    ports:
+      - "5000:5000"
+    volumes:
+     - ./rails:/var/www/html/nonbee
+#     - /etc/localtime:/etc/localtime:ro
+    links:
+      - mysql
+      - memcached
+      - postfix
+      - redis
+    tty: true
+    environment:
+      TZ: Asia/Tokyo
+      LANG: ja_JP.UTF-8
+  memcached:
+    image: memcached:1.4.34
+    expose:
+      - "11211"
+    environment:
+      TZ: Asia/Tokyo
+
+  redis:
+    image: redis:3.2.7
+    expose:
+      - "6379"
+    environment:
+      TZ: Asia/Tokyo
+
+  mysql:
+    build: ./mysql
+    env_file: ./env/mysql.env
+    ports:
+      - "13306:3306"
+    environment:
+      TZ: Asia/Tokyo
