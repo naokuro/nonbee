@@ -5,6 +5,7 @@ services:
     build: ./rails
     ports:
       - "5000:5000"
+      - "3035:3035"
     volumes:
      - ./rails:/var/www/html/nonbee
     links:
