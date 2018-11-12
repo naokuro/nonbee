@@ -65,6 +65,10 @@ RUN echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> $HOME/.bashrc
 RUN source $HOME/.bashrc && nodebrew install-binary $NODE_VERSION
 RUN source $HOME/.bashrc && nodebrew use $NODE_VERSION
 
+# yarn install
+RUN npm install -g yarn
+RUN yarn install
+
 # gem update
 #RUN gem update --system
 RUN gem install bundler
