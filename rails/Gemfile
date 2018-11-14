@@ -37,6 +37,8 @@ gem 'jbuilder', '~> 2.5'
 
 # Mysql
 gem 'mysql2'
+# memcached
+gem 'memcached'
 
 # table column encryptor
 gem 'attr_encrypted'

@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
-  get 'top/index'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  # front
+  scope module: :front do
+    # top
+    get 'top/index'
+    post 'top/sign_in',  to: 'top#sign_in', as: 'sign_in'
+    get  'top/sign_out', to: 'top#sign_out', as: 'sign_out'
+  end
 
   # api
   namespace :api, { format: 'json' } do
