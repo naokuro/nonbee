@@ -1,0 +1,32 @@
+# 環境設定
+common: &common
+  domain: http://localhost:5000
+  service_name: のんべえ
+  application_name: Nonbee Local
+  db_cache_enabled: true
+  db_cache_host_with_port:
+    - "memcached:11211"
+  db_cache_timeout: 5.0
+  db_cache_prefix_delimiter: "-nonbee-local-db:"
+  redis_hosts:
+   - "redis"
+  redis_port: 6379
+
+development:
+  <<: *common
+  admin_mail: "onishi@cloverlab.jp"
+  info_mail: "onishi@cloverlab.jp"
+
+test:
+  <<: *common
+
+staging:
+  <<: *common
+  admin_mail: "onishi@cloverlab.jp"
+  info_mail: "onishi@cloverlab.jp"
+
+production:
+  <<: *common
+  admin_mail: "onishi@cloverlab.jp"
+  info_mail: "onishi@cloverlab.jp"
+
