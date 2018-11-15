@@ -26,5 +26,27 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
+  host: mysql
+  port: 3306
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: nonbee_stg_db
+  pool: 5
+  timeout: 5000
+  username: root
+  password: root
+  socket: /var/run/mysqld/mysqld.sock
 
 production:
+  host: mysql
+  port: 3306
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: nonbee_db
+  pool: 5
+  timeout: 5000
+  username: root
+  password: root
+  socket: /var/run/mysqld/mysqld.sock
