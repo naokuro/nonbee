@@ -6,19 +6,13 @@ class Front::TopController < Front::ApplicationController
     return redirect_to home_url if self.is_login
 
     email, password = params[:form].values_at(:email, :password)
-
-    pp email
-    pp password
-
     if request.get?
       @t_user = TUser.new
     elsif request.post?
       @t_user = TUser.get_by_email(email)
-
-      pp @t_user
-
       # 存在しない
-      error_email, error_password = ''
+      error_email = nil
+      error_password = nil
       if @t_user.nil?
         @t_user = TUser.new.init({email: email, password: password})
         error_email = 'は登録されていません'
@@ -28,13 +22,7 @@ class Front::TopController < Front::ApplicationController
         @t_user.password = password
         error_password = 'が違います'
       end
-
       return unless @t_user.valid?(:sign_in)
-
-      pp @t_user.errors
-      pp error_email
-      pp error_password
-
       if error_email || error_password
         @t_user.email = email
         @t_user.errors.messages[:email] = error_email if error_email
@@ -47,7 +35,7 @@ class Front::TopController < Front::ApplicationController
       ret_to = session[:return_to]
       session.delete(:return_to)
 
-      redirect_to ret_to || mypage_url
+      redirect_to ret_to || home_url
     end
 
   end

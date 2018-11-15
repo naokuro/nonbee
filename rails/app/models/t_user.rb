@@ -7,8 +7,8 @@ class TUser < ApplicationRecord
   extend ApplicationRecord::TModule
 
   # 暗号化
-  attr_encrypted :email, key: Rails.application.credentials.key, insecure_mode: true, algorithm: 'aes-256-cbc', mode: :single_iv_and_salt
-  attr_encrypted :password, key: Rails.application.credentials.key, insecure_mode: true, algorithm: 'aes-256-cbc', mode: :single_iv_and_salt
+  attr_encrypted :email, key: Rails.application.credentials.key, algorithm: 'aes-256-gcm', mode: :single_iv_and_salt, insecure_mode: true
+  attr_encrypted :password, key: Rails.application.credentials.key, algorithm: 'aes-256-gcm', mode: :single_iv_and_salt, insecure_mode: true
 
   # validate
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX, message: 'を正しく入力してください' }
@@ -33,9 +33,7 @@ class TUser < ApplicationRecord
   # @param [String]  email
   # @return [Object]
   def self.get_by_email(email)
-    pp email
     email = self.encrypt_email(email)
-    pp email
     self.find_by({encrypted_email: email, del_flg: 0})
   end
 
