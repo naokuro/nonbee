@@ -8,12 +8,18 @@ Rails.application.routes.draw do
     get  'top/sign_out', to: 'top#sign_out', as: 'sign_out'
 
     # home
-    get 'home/index', to: 'home#index', as: 'home'
+    root to: 'home#index'
+    get '/home', to: 'home#index', as: 'home'
+    get '/about',   to: 'home#index'
+    get '/contact', to: 'home#index'
   end
 
   # api
   namespace :api, { format: 'json' } do
     namespace :v1 do
+
+      get 'articles', to: 'article#list'
+
 
     end
   end

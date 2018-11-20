@@ -1,0 +1,15 @@
+<template>
+    <div>
+        <!-- 内容はお好みで -->
+        <p>If you want to contact me, you send mail to below address.</p>
+        <p>test@example.com</p>
+    </div>
+</template>
+
+<script>
+
+</script>
+
+<style scoped>
+
+</style>
