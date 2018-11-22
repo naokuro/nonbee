@@ -18,10 +18,10 @@ class Api::V1::ApplicationController < ActionController::API
   end
 
   # FIXME: 何かCustomErrorがエラーになって読み込めない
-  # rescue_from CustomError do |e|
-  #   e.msg_code(@error_messenger) if e.message_code == 0
-  #   render 'api/common/error', formats: [:json], handlers: [:jbuilder], locals: { err_code: e.code, msg: e.message, msg_code: e.message_code }
-  # end
+  rescue_from CustomError do |e|
+    e.msg_code(@error_messenger) if e.message_code == 0
+    render 'api/common/error', formats: [:json], handlers: [:jbuilder], locals: { err_code: e.code, msg: e.message, msg_code: e.message_code }
+  end
 
   #
   # パラメータが足りるかチェックしてerror_checkの形のHashを行う

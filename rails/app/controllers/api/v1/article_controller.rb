@@ -10,4 +10,12 @@ class Api::V1::ArticleController < Api::V1::ApplicationController
     @articles = []
   end
 
+  def add
+
+  end
+
+  def done
+
+  end
+
 end

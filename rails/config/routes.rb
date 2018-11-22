@@ -19,7 +19,8 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       get 'articles', to: 'article#list'
-
+      post 'articles', to: 'article#add'
+      put 'articles/:id', to: 'article#done'
 
     end
   end

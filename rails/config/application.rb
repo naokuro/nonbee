@@ -23,6 +23,7 @@ module Nonbee
     # Autoload ON
     # config.enable_dependency_loading = true
     config.autoload_paths += ["#{config.root}/lib/"]
+    config.autoload_paths += ["#{config.root}/app/libs/error"]
 
   end
 end
