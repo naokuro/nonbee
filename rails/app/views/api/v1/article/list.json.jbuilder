@@ -1,4 +1,4 @@
-json.items {
+json.articles {
   json.array!(@articles) { | article |
     json.id              article.id
     json.t_user_id       article.t_user_id

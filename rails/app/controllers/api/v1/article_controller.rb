@@ -12,6 +12,8 @@ class Api::V1::ArticleController < Api::V1::ApplicationController
 
   def add
 
+    pp params
+
   end
 
   def done

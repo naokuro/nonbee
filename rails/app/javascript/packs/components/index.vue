@@ -3,10 +3,9 @@
         <!-- 新規作成部分 -->
         <div class="row">
             <div class="col s10 m11">
-                <input v-model="newTask" class="form-control" placeholder="Add your task!!">
             </div>
             <div class="col s2 m1">
-                <div class="btn-floating waves-effect waves-light red">
+                <div class="btn-floating waves-effect waves-light red" @click="openModal">
                     <i class="material-icons">add</i>
                 </div>
             </div>
@@ -14,83 +13,76 @@
         <!-- リスト表示部分 -->
         <div>
             <ul class="collection">
-                <li v-for="task in tasks" v-if="!task.is_done" v-bind:id="'row_task_' + task.id"
+                <li v-for="article in articles" v-if="!article.is_done" v-bind:id="'row_article_' + article.id"
                     class="collection-item">
-                    <input type="checkbox" v-on:change="doneTask(task.id)" v-bind:id="'task_' + task.id"/>
-                    <label v-bind:for="'task_' + task.id">{{ task.name }}</label>
+                    <input type="checkbox" v-on:change="doneTask(article.id)" v-bind:id="'article_' + article.id"/>
+                    <label v-bind:for="'article_' + article.id">{{ article.name }}</label>
                 </li>
             </ul>
         </div>
-        <!-- 完了済みタスク表示ボタン -->
-        <div class="btn" v-on:click="displayFinishedTasks">Display finished tasks</div>
-        <!-- 完了済みタスク一覧 -->
-        <div id="finished-tasks" class="display_none">
-            <ul class="collection">
-                <li v-for="task in tasks" v-if="task.is_done" v-bind:id="'row_task_' + task.id" class="collection-item">
-                    <input type="checkbox" v-bind:id="'task_' + task.id" checked="checked"/>
-                    <label v-bind:for="'task_' + task.id" class="line-through">{{ task.name }}</label>
-                </li>
-            </ul>
-        </div>
+
+        <!-- コンポーネント MyModal -->
+        <RegistModal @close="closeModal" v-if="this.modal">
+            <!-- default スロットコンテンツ -->
+            <p>Vue.js Modal Window!</p>
+            <div><input v-model="newArticle"></div>
+            <!-- /default -->
+            <!-- footer スロットコンテンツ -->
+            <template slot="footer">
+                <button @click="createArticle">送信</button>
+            </template>
+            <!-- /footer -->
+        </RegistModal>
+
     </div>
+
 </template>
 
 <script>
     import axios from 'axios';
+    import RegistModal from './article/regist_modal';
 
     export default {
+        components: {
+            RegistModal
+        },
         data: function () {
             return {
-                tasks: [],
-                newTask: ''
+                modal: false,
+                articles: [],
+                newArticle: ''
             }
         },
         mounted: function () {
-            this.fetchTasks();
+            this.fetchArticles();
         },
         methods: {
-            fetchTasks: function () {
+            openModal: function() {
+                this.modal = true
+            },
+            closeModal: function() {
+                this.modal = false
+            },
+            fetchArticles: function () {
                 axios.get('/api/v1/articles').then((response) => {
-                    for (var i = 0; i < response.data.tasks.length; i++) {
-                        this.tasks.push(response.data.tasks[i]);
+                    console.log(response.data);
+                    if (response.data == null) return;
+                    for (let i = 0; i < response.data.articles.length; i++) {
+                        this.articles.push(response.data.articles[i]);
                     }
                 }, (error) => {
                     console.log(error);
                 });
             },
-            displayFinishedTasks: function () {
-                document.querySelector('#finished-tasks').classList.toggle('display_none');
-            },
-            createTask: function () {
-                if (!this.newTask) return;
-                axios.post('/api/v1/articles', {task: {name: this.newTask}}).then((response) => {
-                    this.tasks.unshift(response.data.task);
-                    this.newTask = '';
+            createArticle: function () {
+                if (!this.newArticle) return;
+                axios.post('/api/v1/articles', {article: {name: this.newArticle}}).then((response) => {
+                    this.articles.unshift(response.data.article);
+                    this.newArticle = '';
                 }, (error) => {
                     console.log(error);
                 });
             },
-            doneTask: function (task_id) {
-                axios.put('/api/v1/articles/' + task_id, {task: {is_done: 1}}).then((response) => {
-                    this.moveFinishedTask(task_id);
-                }, (error) => {
-                    console.log(error);
-                });
-            },
-            moveFinishedTask: function (task_id) {
-                var el = document.querySelector('#row_task_' + task_id);
-                // DOMをクローンしておく
-                var el_clone = el.cloneNode(true);
-                // 未完了の方を先に非表示にする
-                el.classList.add('display_none');
-                // もろもろスタイルなどをたして完了済みに追加
-                el_clone.getElementsByTagName('input')[0].checked = 'checked';
-                el_clone.getElementsByTagName('label')[0].classList.add('line-through');
-                el_clone.getElementsByTagName('label')[0].classList.remove('word-color-black');
-                var li = document.querySelector('#finished-tasks > ul > li:first-child');
-                document.querySelector('#finished-tasks > ul').insertBefore(el_clone, li);
-            }
-
         }
     }
 </script>
@@ -100,9 +92,9 @@
         display: none;
     }
 
-    .display_none {
-        display: none;
-    }
+    /*.display_none {*/
+        /*display: none;*/
+    /*}*/
 
     /* 打ち消し線を引く */
     .line-through {
