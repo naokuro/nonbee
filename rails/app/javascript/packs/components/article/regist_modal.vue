@@ -1,18 +1,20 @@
 <template>
-    <transition name="modal" appear>
-        <div class="modal modal-overlay" @click.self="$emit('close')">
-            <div class="modal-window">
-                <div class="modal-content">
-                    <slot/>
+    <div>
+        <transition name="modal" appear>
+            <div class="modal modal-overlay" @click.self="$emit('close')">
+                <div class="modal-window">
+                    <div class="modal-content">
+                        <slot/>
+                    </div>
+                    <footer class="modal-footer">
+                        <slot name="footer">
+                            <button @click="$emit('close')">Close</button>
+                        </slot>
+                    </footer>
                 </div>
-                <footer class="modal-footer">
-                    <slot name="footer">
-                        <button @click="$emit('close')">Close</button>
-                    </slot>
-                </footer>
             </div>
-        </div>
-    </transition>
+        </transition>
+    </div>
 </template>
 
 <script>
@@ -55,6 +57,7 @@
         transition: opacity 0.4s;
 
         // オーバーレイに包含されているモーダルウィンドウのトランジション
+
         .modal-window {
             transition: opacity 0.4s, transform 0.4s;
         }

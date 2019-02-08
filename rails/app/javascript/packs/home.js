@@ -1,13 +1,14 @@
 import Vue from 'vue'
-import Router from './router/router'
-import Header from './components/header'
+import Index from './components/index'
 
 document.addEventListener('DOMContentLoaded', () => {
     const app = new Vue({
-        router: Router,
         el: '#app',
+        data: {
+            hoge: 'あいうえお'
+        },
         components: {
-            'navbar': Header,
+            'index': Index
         }
     });
 });

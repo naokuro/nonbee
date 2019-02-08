@@ -14,8 +14,3 @@
     <%= f.submit 'sign in' %>
   <% end %>
 </div>
-
-<% content_for :head do %>
-  <% # data-turbolinks-track" => 'reload' 必ず再読み込みさせる %>
-  <%= javascript_pack_tag 'home', 'data-turbolinks-track': 'reload' %>
-<% end %>
